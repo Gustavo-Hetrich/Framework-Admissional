@@ -10,7 +10,7 @@ O **Framework Admissional** é uma ferramenta desenvolvida para auxiliar o depar
 - **Extração de Informações**: Utiliza expressões regulares (regex) para identificar e extrair campos relevantes, como nome, CPF, RG, data de nascimento, endereço, entre outros.
 - **Interface Gráfica (GUI)**: A extração das informações é exibida em uma interface gráfica amigável, construída com **Tkinter**. O usuário pode revisar e editar as informações extraídas.
 - **Navegação e Edição**: A interface permite a navegação pelos dados extraídos, possibilitando que o usuário veja e altere cada campo individualmente, utilizando botões e atalhos de teclado.
-- **Suporte para Atalhos**: O sistema aceita navegação entre os dados utilizando as teclas de seta, F7, F5, e um atalho para colar as informações diretamente no sistema.
+- **Suporte para Atalhos**: O sistema aceita navegação entre os dados utilizando as teclas de seta e um atalho para colar as informações diretamente no sistema.
 
 ## Como Usar
 
