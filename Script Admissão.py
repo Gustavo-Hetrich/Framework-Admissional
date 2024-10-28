@@ -5,6 +5,8 @@ from tkinter import scrolledtext, messagebox, filedialog
 import os
 import keyboard
 
+#note tati nb-000146
+
 def ler_pdf_para_texto(caminho_pdf):
     # Abre o PDF
     documento = fitz.open(caminho_pdf)
@@ -30,8 +32,6 @@ def extrair_informacoes(texto):
     informacoes["Data de Nascimento"] = re.search(r"Data de Nascimento:\s*([\d/]+)", texto, re.IGNORECASE)
     informacoes["Nome da Mãe"] = re.search(r"Nome da mãe:\s*(.*)", texto, re.IGNORECASE)
     informacoes["Nome do Pai"] = re.search(r"Nome do pai:\s*(.*)", texto, re.IGNORECASE)
-    informacoes["E-mail pessoal"] = re.search(r"E-mail pessoal:\s*(.*)", texto, re.IGNORECASE)
-    informacoes["Telefone"] = re.search(r"Telefone:\s*(.*)", texto, re.IGNORECASE)
     informacoes["Celular"] = re.search(r"Celular:\s*(.*)", texto, re.IGNORECASE)
     informacoes["CPF"] = re.search(r"CPF:\s*([\d\.\/-]+)", texto, re.IGNORECASE)
     informacoes["RG"] = re.search(r"RG:\s*(\d{2,})", texto, re.IGNORECASE)
@@ -47,10 +47,12 @@ def extrair_informacoes(texto):
     informacoes["Cidade"] = re.search(r"Cidade:\s*(.*)", texto, re.IGNORECASE)
     informacoes["CEP"] = re.search(r"CEP:\s*(\d+-\d+)", texto, re.IGNORECASE)
     informacoes["Banco"] = re.search(r"Banco:\s*(\w+)", texto, re.IGNORECASE)
-    informacoes["Nº Conta Corrente"] = re.search(r"N° Conta Corrente:\s*(.*)", texto, re.IGNORECASE)
+    informacoes["Nº Conta Corrente"] = re.search(r"N° Conta Corrente:\s*(\d+)-\d+", texto, re.IGNORECASE)
+    informacoes["Dígito"] = re.search(r"N° Conta Corrente:\s*\d+-([\d]+)", texto, re.IGNORECASE)
     informacoes["Data de Emissão PIS"] = re.search(r"PIS:\s*[\d.-]+\s*Data\s*[dD]e\s*[eE]missão:\s*([\d/]+)", texto, re.IGNORECASE)
     informacoes["Data de Emissão CPTS"] = re.search(r"CPTS:\s*\d+\s*Data\s*[dD]e\s*[eE]missão:\s*([\d/]+)", texto, re.IGNORECASE)
     informacoes["Série CPTS"] = re.search(r"Série:\s*(\d+)", texto, re.IGNORECASE)
+    informacoes["agencia"] = re.search(r"Agência:\s*(\d+)", texto, re.IGNORECASE)
 
 
     # Limpeza dos resultados extraídos
@@ -93,14 +95,14 @@ def mostrar_informacoes_na_tela(informacoes):
         # Definindo expressões regulares para capturar as informações
         informacoes_editadas["Nome"] = re.search(r"Nome:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["CPF"] = re.search(r"CPF:\s*([\d\.\/-]+)", area_texto_extraido, re.IGNORECASE)
-        informacoes_editadas["Nome Social"] = re.search(r"Nome Social:\s*(.*)", area_texto_extraido, re.IGNORECASE)
+        informacoes_editadas["Nome Social"] = re.search(r"Nome Social:\s*(.*?)\s*(?=Estado Civil:|$)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Estado Civil"] = re.search(r"Estado Civil:\s*\(.*?x.*?\)\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Data de Nascimento"] = re.search(r"Data de Nascimento:\s*([\d/]+)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Cidade de Nascimento"] = re.search(r"Cidade de Nascimento:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Raça/Etnia"] = re.search(r"Raça/Etnia:\s*(\w+)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Cartão Nacional de Saúde"] = re.search(r"Cartão Nacional de Saúde:\s*(\d{15})", area_texto_extraido, re.IGNORECASE)
-        informacoes_editadas["Nome da Mãe"] = re.search(r"Nome da mãe:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Nome do Pai"] = re.search(r"Nome do pai:\s*(.*)", area_texto_extraido, re.IGNORECASE)
+        informacoes_editadas["Nome da Mãe"] = re.search(r"Nome da mãe:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["CEP"] = re.search(r"CEP:\s*(\d+-\d+)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Rua"] = re.search(r"Rua\s*(?:\(Av\))?:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Nº"] = re.search(r"Nº\s*\D*(\d+)", area_texto_extraido, re.IGNORECASE)
@@ -108,8 +110,6 @@ def mostrar_informacoes_na_tela(informacoes):
         informacoes_editadas["Bairro"] = re.search(r"Bairro:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Cidade"] = re.search(r"Cidade:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Estado"] = re.search(r"Estado:\s*(Paraná|.*?)(?:\n|$)", area_texto_extraido, re.IGNORECASE)
-        informacoes_editadas["Telefone"] = re.search(r"Telefone:\s*(.*)", area_texto_extraido, re.IGNORECASE)
-        informacoes_editadas["E-mail pessoal"] = re.search(r"E-mail pessoal:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Celular"] = re.search(r"Celular:\s*(.*)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["RG"] = re.search(r"RG:\s*(\d{2,})", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Emissor"] = re.search(r"Emissor:\s*(\w+)", area_texto_extraido, re.IGNORECASE)
@@ -120,7 +120,10 @@ def mostrar_informacoes_na_tela(informacoes):
         informacoes_editadas["Série CPTS"] = re.search(r"Série CPTS:\s*(\d+)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Data de Emissão CPTS"] = re.search(r"Data de Emissão CPTS:\s*([\d/]+)", area_texto_extraido, re.IGNORECASE)
         informacoes_editadas["Banco"] = re.search(r"Banco:\s*(\w+)", area_texto_extraido, re.IGNORECASE)
-        informacoes_editadas["Nº Conta Corrente"] = re.search(r"Nº\s*Conta\s*Corrente:\s*([\d\-\.\/]+)", area_texto_extraido, re.IGNORECASE)
+        informacoes_editadas["agencia"] = re.search(r"Agencia:\s*(\d+)", area_texto_extraido, re.IGNORECASE)
+        informacoes_editadas["Nº Conta Corrente"] = re.search(r"Nº\s*Conta\s*Corrente:\s*(\d+)", area_texto_extraido, re.IGNORECASE)
+        informacoes_editadas["Dígito"] = re.search(r"Dígito:\s*(\d+)", area_texto_extraido, re.IGNORECASE)
+
 
 
 
@@ -135,7 +138,7 @@ def mostrar_informacoes_na_tela(informacoes):
         area_texto.pack_forget()
         botao_prosseguir.pack_forget()
         messagebox.showinfo("Informações", "Informações revisadas.")
-        janela.geometry("300x80")
+        janela.geometry("350x80")
         janela.attributes("-topmost", True)
         # Cria as variáveis necessárias para navegação
         keys = list(informacoes_editadas.keys())
@@ -159,9 +162,11 @@ def mostrar_informacoes_na_tela(informacoes):
                 atualizar_conteudo()
 
 
-        # Bind das teclas F7 e F5
+        # Bind das teclas direta e esquerda
         keyboard.add_hotkey('right', proximo)
         keyboard.add_hotkey('left', anterior)
+
+
         
         def colar():
             current_content = informacoes_editadas[keys[index]]
@@ -187,6 +192,7 @@ def mostrar_informacoes_na_tela(informacoes):
             print(f"{campo}: {valor}")
         
         # Cria uma janela para exibir os dados extraídos
+        
         
        
 
