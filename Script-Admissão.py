@@ -63,7 +63,7 @@ def extrair_informacoes(texto):
 def mostrar_informacoes_na_tela(informacoes):
     # Cria a janela principal
     janela = tk.Tk()
-    janela.title("Informações Extraídas")
+    janela.title("Informações Extraídas (1.0.0)")
     janela.geometry("600x600")
 
     # Cria uma área de texto rolável
